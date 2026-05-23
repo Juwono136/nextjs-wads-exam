@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: blog_exam_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: wads
+      POSTGRES_PASSWORD: wads
+      POSTGRES_DB: blog_exam
+    ports:
+      # EXAM Q4: host port 5433 — align DATABASE_URL or change to 5432:5432
+      - "5433:5432"
+    volumes:
+      - blog_exam_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wads -d blog_exam"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: blog_exam_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://wads:wads@postgres:5432/blog_exam
+      NODE_ENV: production
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-exam-secret-change-me-32chars}
+      BETTER_AUTH_URL: http://localhost:3000
+      NEXT_PUBLIC_BETTER_AUTH_URL: http://localhost:3000
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      NEXT_PUBLIC_API_DOCS_ENABLED: "true"
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+      OLLAMA_MODEL: phi3:mini
+    depends_on:
+      postgres:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  blog_exam_pgdata:

@@ -1,0 +1,79 @@
+{
+  "info": {
+    "name": "Blog WADS Final Exam",
+    "description": "REST API tests for Simple Blog — WADS Final Exam",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" }
+  ],
+  "item": [
+    {
+      "name": "Auth — Sign Up",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Exam Student\",\n  \"email\": \"student@binus.ac.id\",\n  \"password\": \"password123\"\n}"
+        },
+        "url": "{{baseUrl}}/api/auth/sign-up/email"
+      }
+    },
+    {
+      "name": "Auth — Sign In",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"student@binus.ac.id\",\n  \"password\": \"password123\"\n}"
+        },
+        "url": "{{baseUrl}}/api/auth/sign-in/email"
+      }
+    },
+    {
+      "name": "Posts — Create",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"postTitle\": \"My Exam Post\",\n  \"content\": \"Content for practical exam.\",\n  \"published\": true\n}"
+        },
+        "url": "{{baseUrl}}/api/posts"
+      }
+    },
+    {
+      "name": "Posts — List",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/posts"
+      }
+    },
+    {
+      "name": "AI — Summarize",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"content\": \"Web Application Development and Security teaches students how to build secure full-stack applications using modern tools.\"\n}"
+        },
+        "url": "{{baseUrl}}/api/ai/summarize"
+      }
+    }
+  ]
+}

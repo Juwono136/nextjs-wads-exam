@@ -1,0 +1,38 @@
+# START HERE — WADS Final Exam (Offline Lab)
+
+## Quick start
+
+1. Open terminal in this folder.
+2. Start database:
+   ```bash
+   docker compose up -d
+   ```
+3. Start app:
+   ```bash
+   npm run dev
+   ```
+4. Open browser: **http://localhost:3000**
+5. Read exam tasks in `docs/EXAM_STUDENT_PAPER.md`
+
+## Important
+
+- **No internet** during the exam.
+- Do **not** run `npm install` unless the examiner says so.
+- Ollama must be running locally with model **phi3:mini**.
+
+## Helpful commands
+
+```bash
+npm run db:generate
+npm run db:migrate
+npm test
+ollama list
+docker compose ps
+```
+
+## API testing
+
+- Postman collection: `postman/Blog-WADS-Final.postman_collection.json`
+- API docs: fix the link in Task 2, then open Swagger UI
+
+Good luck!
