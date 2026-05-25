@@ -13,12 +13,30 @@ export function GoogleSignInButton() {
     setLoading(true);
     setMessage("");
     try {
-      const auth = getFirebaseAuth();
-      const result = await signInWithPopup(auth, googleProvider);
-      setMessage(`Signed in with Google as ${result.user.email}`);
+      const firebaseAuth = getFirebaseAuth();
+      const result = await signInWithPopup(firebaseAuth, googleProvider);
+
+      const res = await fetch("/api/auth/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: result.user.email,
+          name: result.user.displayName,
+          firebaseUid: result.user.uid,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error ?? "Failed to create session");
+      }
+
+      window.location.href = "/todos";
     } catch (e) {
       setMessage(
-        e instanceof Error ? e.message : "Google sign-in failed. Check Firebase env."
+        e instanceof Error
+          ? e.message
+          : "Google sign-in failed. Check Firebase env."
       );
     } finally {
       setLoading(false);

@@ -93,12 +93,12 @@ Creating a todo via UI or Postman fails with a Prisma error mentioning an unknow
 
 1. Copy Firebase web app credentials into `.env` using the correct variable names.
 2. Ensure all `NEXT_PUBLIC_FIREBASE_*` keys match `lib/firebase.ts`.
-3. Test Google sign-in on `/login` (success message with your email).
+3. Test Google sign-in on `/login` — after signing in, you should be redirected to `/todos`.
 4. Register/login with **email & password** (Better Auth) and access `/todos`.
 
 ### Acceptance criteria
 
-- [ ] Google button shows successful sign-in message
+- [ ] Google sign-in redirects to `/todos` with your Google account
 - [ ] Email login works and protects `/todos`
 
 ### Files allowed
