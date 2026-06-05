@@ -49,6 +49,89 @@ ollama list   # must show phi3:mini
 
 ---
 
+## 2b. npm offline — why `npm install` hangs without internet
+
+**`npm cache verify` + backup cache alone is usually NOT enough** for a reliable offline install.
+
+Even with a full cache, npm may still try to reach `registry.npmjs.org` for:
+
+- Package metadata / lockfile resolution
+- `npm audit` (security advisories)
+- Optional / peer dependency checks
+- DNS timeout → looks like “stuck loading” for minutes
+
+**Recommended for this exam: do NOT run `npm install` on lab PCs.** Ship **`node_modules/`** inside the student ZIP (see Section 3).
+
+### Method A — Recommended: include `node_modules` (no npm on exam day)
+
+On a machine **with internet** (once):
+
+```bash
+cd final-exam-wads
+rm -rf node_modules
+npm ci
+npx prisma generate
+```
+
+Verify offline **before exam day** (disable Wi‑Fi):
+
+```bash
+npm run dev
+npm test
+```
+
+Zip the **entire folder including `node_modules/`**. Students extract and run `npm run dev` only.
+
+### Method B — Shared `node_modules` copy (USB / lab share)
+
+If ZIP is too large, copy from a golden PC:
+
+```powershell
+# Golden PC (online, after npm ci)
+robocopy "C:\Exam\final-exam-wads\node_modules" "D:\USB\node_modules" /E /Z
+
+# Each lab PC (offline)
+robocopy "D:\USB\node_modules" "C:\Exam\final-exam-wads\node_modules" /E /Z
+```
+
+Still **no `npm install`** on the lab machine.
+
+### Method C — npm cache backup (advanced, fallback only)
+
+Use only if you cannot ship `node_modules` and accept more risk.
+
+**Step 1 — Online machine (same Node.js major version as lab, e.g. 20.x):**
+
+```bash
+cd final-exam-wads
+npm ci
+npm cache verify
+npm config get cache
+# Example Windows path: C:\Users\<you>\AppData\Local\npm-cache
+```
+
+Copy the **entire cache folder** to USB (e.g. `D:\exam-npm-cache`).
+
+**Step 2 — Lab PC (offline):**
+
+```bash
+cd final-exam-wads
+npm config set cache D:\exam-npm-cache
+npm config set audit false
+npm config set fund false
+npm ci --offline --no-audit --fund false --prefer-offline
+```
+
+If this fails with `ENOTFOUND` or `cache miss`, the cache was incomplete — use **Method A** instead.
+
+**Do not use** plain `npm install` offline; prefer `npm ci --offline` with existing `package-lock.json`.
+
+### What to tell students
+
+> During the exam: **do not run `npm install` or `npm ci`**. Dependencies are already in the project ZIP.
+
+---
+
 ## 3. ZIP package contents checklist
 
 Include in `WADS-FinalExam-Student.zip`:

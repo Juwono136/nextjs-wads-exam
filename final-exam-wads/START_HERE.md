@@ -18,7 +18,7 @@
 ## Important
 
 - **No internet** during the exam.
-- Do **not** run `npm install` unless the examiner says so.
+- Do **not** run `npm install` or `npm ci` — `node_modules` is already in the exam ZIP.
 - Ollama must be running locally with model **phi3:mini**.
 
 ## Helpful commands
