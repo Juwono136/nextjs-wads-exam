@@ -30,7 +30,14 @@ cp .env.example .env
 
 ```bash
 docker pull postgres:16-alpine
-docker compose build
+```
+
+**Important:** Students must **not** build the `app` service during the exam. `docker compose up -d` starts **PostgreSQL only**. The Next.js app runs via `npm run dev` (pre-installed `node_modules` in the ZIP).
+
+Optional (instructor machine **with internet** only — test full Docker stack):
+
+```bash
+docker compose --profile full up -d --build
 ```
 
 ### Pull Ollama model (on each lab PC or golden image)

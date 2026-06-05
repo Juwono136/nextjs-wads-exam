@@ -1,3 +1,9 @@
+# Offline exam: `docker compose up -d` starts PostgreSQL ONLY (no internet needed).
+# App service requires `npm ci` during image build — use profile `full` only WITH internet:
+#   docker compose --profile full up -d --build
+#
+# During the exam, run the app locally: npm run dev
+
 services:
   postgres:
     image: postgres:16-alpine
@@ -19,6 +25,8 @@ services:
       retries: 5
 
   app:
+    profiles:
+      - full
     build: .
     container_name: blog_exam_app
     restart: unless-stopped

@@ -10,11 +10,12 @@ export async function GET() {
 <head>
   <meta charset="UTF-8" />
   <title>Simple Blog API Docs</title>
-  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
 </head>
 <body>
-  <div id="swagger-ui"></div>
-  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <div id="swagger-ui">
+  <h1>Simple Blog API Docs</h1>
+  <p>This is a simple blog API documentation (Offline mode).</p>
+  </div>
   <script>
     window.onload = () => {
       SwaggerUIBundle({

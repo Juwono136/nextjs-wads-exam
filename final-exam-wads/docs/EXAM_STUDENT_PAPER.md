@@ -56,11 +56,13 @@ You are given a **Simple Blog** full-stack application built with:
 ### Suggested startup (after fixing Task 1)
 
 ```bash
-docker compose up -d
+docker compose up -d          # PostgreSQL only (offline-safe)
 npm run db:generate
 npm run db:migrate
-npm run dev
+npm run dev                   # App runs on your machine, not inside Docker
 ```
+
+> **Note:** `docker compose up -d` does **not** build the application container (that would need internet for `npm ci`). Only the database container starts. This is intentional for the offline exam.
 
 Application URL: `http://localhost:3000`
 
@@ -230,7 +232,7 @@ When you run the application or Prisma commands, you see errors such as:
 
 ### Acceptance criteria
 
-- [ ] `docker compose up -d` — postgres healthy
+- [ ] `docker compose up -d` — **postgres** container healthy (app runs via `npm run dev`, not Docker)
 - [ ] AI summarize returns JSON with a `summary` field
 - [ ] Postman **AI — Summarize** returns `200` when authenticated
 

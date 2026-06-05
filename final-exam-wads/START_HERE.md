@@ -3,11 +3,12 @@
 ## Quick start
 
 1. Open terminal in this folder.
-2. Start database:
+2. Start database only (works **offline** — does not build the app image):
    ```bash
    docker compose up -d
    ```
-3. Start app:
+   You should see only **blog_exam_db** (postgres). Do **not** use `docker compose --profile full` during the exam (that requires internet to run `npm ci` inside Docker).
+3. Start app locally:
    ```bash
    npm run dev
    ```
