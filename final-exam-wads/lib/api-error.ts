@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
-/** EXAM Q3: validation errors return 500 instead of 400 */
+/** EXAM Q3: validation errors return 400 instead of 500 */
 export function validationErrorResponse(error: ZodError) {
   return NextResponse.json(
     {
       error: "Validation failed",
       details: error.flatten().fieldErrors,
     },
-    { status: 500 }
+    { status: 400 }
   );
 }
 
